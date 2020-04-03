@@ -14,7 +14,6 @@ namespace HelloWorldMVC.Models
     
     public partial class Person
     {
-        public int ID { get; set; }
         public string FirstName { get; set; }
         public int TimesMet { get; set; }
     }

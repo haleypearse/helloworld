@@ -12,7 +12,7 @@ namespace HelloWorldMVC.Controllers
 {
     public class PeopleController : Controller
     {
-        private DatabaseFirstDBEntities db = new DatabaseFirstDBEntities();
+        private PeopleDatabaseFirstDBEntities db = new PeopleDatabaseFirstDBEntities();
 
         // GET: People
         public ActionResult Index()
@@ -46,7 +46,7 @@ namespace HelloWorldMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FirstName,TimesMet")] Person person)
+        public ActionResult Create([Bind(Include = "FirstName,TimesMet")] Person person)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace HelloWorldMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FirstName,TimesMet")] Person person)
+        public ActionResult Edit([Bind(Include = "FirstName,TimesMet")] Person person)
         {
             if (ModelState.IsValid)
             {

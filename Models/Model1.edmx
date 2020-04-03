@@ -4,32 +4,30 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DatabaseFirstDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="PeopleDatabaseFirstDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="People">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="FirstName" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="FirstName" Type="nchar" MaxLength="100" Nullable="false" />
           <Property Name="TimesMet" Type="int" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="DatabaseFirstDBModelStoreContainer">
+        <EntityContainer Name="PeopleDatabaseFirstDBModelStoreContainer">
           <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DatabaseFirstDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="PeopleDatabaseFirstDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Person">
           <Key>
             <PropertyRef Name="FirstName" />
-            <PropertyRef Name="TimesMet" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="TimesMet" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityContainer Name="DatabaseFirstDBEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="PeopleDatabaseFirstDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="People" EntityType="Self.Person" />
         </EntityContainer>
       </Schema>
@@ -37,11 +35,10 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DatabaseFirstDBModelStoreContainer" CdmEntityContainer="DatabaseFirstDBEntities">
+        <EntityContainerMapping StorageEntityContainer="PeopleDatabaseFirstDBModelStoreContainer" CdmEntityContainer="PeopleDatabaseFirstDBEntities">
           <EntitySetMapping Name="People">
-            <EntityTypeMapping TypeName="DatabaseFirstDBModel.Person">
+            <EntityTypeMapping TypeName="PeopleDatabaseFirstDBModel.Person">
               <MappingFragment StoreEntitySet="People">
-                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="TimesMet" ColumnName="TimesMet" />
               </MappingFragment>
@@ -62,7 +59,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

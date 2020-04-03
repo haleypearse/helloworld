@@ -13,10 +13,10 @@ namespace HelloWorldMVC.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DatabaseFirstDBEntities : DbContext
+    public partial class PeopleDatabaseFirstDBEntities : DbContext
     {
-        public DatabaseFirstDBEntities()
-            : base("name=DatabaseFirstDBEntities")
+        public PeopleDatabaseFirstDBEntities()
+            : base("name=PeopleDatabaseFirstDBEntities")
         {
         }
     
