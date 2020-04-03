@@ -17,6 +17,17 @@ namespace HelloWorldMVC.Controllers
         // GET: People
         public ActionResult Index()
         {
+            // try adding an entry to DB
+            /*var context = new PeopleDatabaseFirstDBEntities();
+            var person = new Person()
+            {
+                FirstName = "Haley",
+                TimesMet = 0
+            };
+            context.People.Add(person);
+            context.SaveChanges();*/
+
+
             return View(db.People.ToList());
         }
 
