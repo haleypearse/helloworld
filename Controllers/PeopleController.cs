@@ -20,7 +20,7 @@ namespace HelloWorldMVC.Controllers
             // try adding an entry to DB
             /*var context = new PeopleDatabaseFirstDBEntities();
             var person = new Person()
-            {
+            { 
                 FirstName = "Haley",
                 TimesMet = 0
             };

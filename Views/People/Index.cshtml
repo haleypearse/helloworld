@@ -1,11 +1,24 @@
 ﻿@model IEnumerable<HelloWorldMVC.Models.Person>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Greeting";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Hi! Who are you?</h2>
+
+<form method="post">
+    <fieldset>
+        
+        <p>
+            <label for="Your name, please">Name:</label>
+            <input type="text" name="title" value="@Request.Form["title"]" />
+        </p>
+
+
+        <p><input type="submit" name="buttonSubmit" value="Add Name" /></p>
+    </fieldset>
+</form>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -15,18 +28,25 @@
         <th>
             @Html.DisplayNameFor(model => model.TimesMet)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
+<tr>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.FirstName)
+    </td>
+    <td> @{ /* Add column for times met*/}
+        @Html.DisplayFor(modelItem => item.TimesMet)
+    </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TimesMet)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.FirstName }) |
-            @Html.ActionLink("Details", "Details", new { id=item.FirstName }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.FirstName })
+            @Html.ActionLink("Edit", "Edit", new { id = item.FirstName }) |
+            @Html.ActionLink("Details", "Details", new { id = item.FirstName }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.FirstName })
         </td>
     </tr>
 }
