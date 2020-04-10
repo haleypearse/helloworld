@@ -7,9 +7,15 @@
 
 <h2>Hi! Who are you?</h2>
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+}
+
 <form method="post">
     <fieldset>
-        
+
         <p>
             <label for="Your name, please">Name:</label>
             <input type="text" name="title" value="@Request.Form["title"]" />
@@ -34,21 +40,23 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
+    @foreach (var item in Model)
+    {
+        <tr>
 
-    <td>
-        @Html.DisplayFor(modelItem => item.FirstName)
-    </td>
-    <td> @{ /* Add column for times met*/}
-        @Html.DisplayFor(modelItem => item.TimesMet)
-    </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.FirstName }) |
-            @Html.ActionLink("Details", "Details", new { id = item.FirstName }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.FirstName })
-        </td>
-    </tr>
-}
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @{ /* Add column for times met*/}
+                @Html.DisplayFor(modelItem => item.TimesMet)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.FirstName }) |
+                @Html.ActionLink("Details", "Details", new { id = item.FirstName }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.FirstName })
+            </td>
+        </tr>
+    }
 
 </table>

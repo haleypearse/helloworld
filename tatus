@@ -1,0 +1,76 @@
+[1mdiff --git a/Models/Model1.edmx b/Models/Model1.edmx[m
+[1mindex f80e3f3..f5e4786 100644[m
+[1m--- a/Models/Model1.edmx[m
+[1m+++ b/Models/Model1.edmx[m
+[36m@@ -4,18 +4,18 @@[m
+   <edmx:Runtime>[m
+     <!-- SSDL content -->[m
+     <edmx:StorageModels>[m
+[31m-    <Schema Namespace="PeopleDatabaseFirstDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">[m
+[31m-        <EntityType Name="People">[m
+[31m-          <Key>[m
+[31m-            <PropertyRef Name="FirstName" />[m
+[31m-          </Key>[m
+[31m-          <Property Name="FirstName" Type="nchar" MaxLength="100" Nullable="false" />[m
+[31m-          <Property Name="TimesMet" Type="int" Nullable="false" />[m
+[31m-        </EntityType>[m
+[31m-        <EntityContainer Name="PeopleDatabaseFirstDBModelStoreContainer">[m
+[31m-          <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />[m
+[31m-        </EntityContainer>[m
+[31m-      </Schema></edmx:StorageModels>[m
+[32m+[m[32m    <Schema Namespace="PeopleDatabaseFirstDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">[m
+[32m+[m[32m  <EntityContainer Name="PeopleDatabaseFirstDBModelStoreContainer">[m
+[32m+[m[32m    <EntitySet Name="People" EntityType="PeopleDatabaseFirstDBModel.Store.People" store:Type="Tables" Schema="dbo" />[m
+[32m+[m[32m  </EntityContainer>[m
+[32m+[m[32m  <EntityType Name="People">[m
+[32m+[m[32m    <Key>[m
+[32m+[m[32m      <PropertyRef Name="FirstName" />[m
+[32m+[m[32m    </Key>[m
+[32m+[m[32m    <Property Name="FirstName" Type="nchar" Nullable="false" MaxLength="100" />[m
+[32m+[m[32m    <Property Name="TimesMet" Type="int" Nullable="false" />[m
+[32m+[m[32m  </EntityType>[m
+[32m+[m[32m</Schema></edmx:StorageModels>[m
+     <!-- CSDL content -->[m
+     <edmx:ConceptualModels>[m
+       <Schema Namespace="PeopleDatabaseFirstDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">[m
+[36m@@ -33,19 +33,18 @@[m
+     </edmx:ConceptualModels>[m
+     <!-- C-S mapping content -->[m
+     <edmx:Mappings>[m
+[31m-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">[m
+[31m-        <EntityContainerMapping StorageEntityContainer="PeopleDatabaseFirstDBModelStoreContainer" CdmEntityContainer="PeopleDatabaseFirstDBEntities">[m
+[31m-          <EntitySetMapping Name="People">[m
+[31m-            <EntityTypeMapping TypeName="PeopleDatabaseFirstDBModel.Person">[m
+[31m-              <MappingFragment StoreEntitySet="People">[m
+[31m-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />[m
+[31m-                <ScalarProperty Name="TimesMet" ColumnName="TimesMet" />[m
+[31m-              </MappingFragment>[m
+[31m-            </EntityTypeMapping>[m
+[31m-          </EntitySetMapping>[m
+[31m-        </EntityContainerMapping>[m
+[31m-      </Mapping>[m
+[31m-    </edmx:Mappings>[m
+[32m+[m[32m    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">[m
+[32m+[m[32m  <EntityContainerMapping StorageEntityContainer="PeopleDatabaseFirstDBModelStoreContainer" CdmEntityContainer="PeopleDatabaseFirstDBEntities">[m
+[32m+[m[32m    <EntitySetMapping Name="People">[m
+[32m+[m[32m      <EntityTypeMapping TypeName="IsTypeOf(PeopleDatabaseFirstDBModel.Person)">[m
+[32m+[m[32m        <MappingFragment StoreEntitySet="People">[m
+[32m+[m[32m          <ScalarProperty Name="FirstName" ColumnName="FirstName" />[m
+[32m+[m[32m          <ScalarProperty Name="TimesMet" ColumnName="TimesMet" />[m
+[32m+[m[32m        </MappingFragment>[m
+[32m+[m[32m      </EntityTypeMapping>[m
+[32m+[m[32m    </EntitySetMapping>[m
+[32m+[m[32m  </EntityContainerMapping>[m
+[32m+[m[32m</Mapping></edmx:Mappings>[m
+   </edmx:Runtime>[m
+   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->[m
+   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">[m
+[36m@@ -59,7 +58,7 @@[m
+         <DesignerProperty Name="ValidateOnBuild" Value="true" />[m
+         <DesignerProperty Name="EnablePluralization" Value="true" />[m
+         <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />[m
+[31m-        <DesignerProperty Name="UseLegacyProvider" Value="false" />[m
+[32m+[m[32m        <DesignerProperty Name="UseLegacyProvider" Value="False" />[m
+         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />[m
+       </DesignerInfoPropertySet>[m
+     </Options>[m
