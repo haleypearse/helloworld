@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Hi! Who are you?</h2>
+<h2>Index</h2>
 
 @using (Html.BeginForm())
 {
@@ -13,7 +13,7 @@
 
 }
 
-<form method="post">
+@*<form method="post">
     <fieldset>
 
         <p>
@@ -24,7 +24,7 @@
 
         <p><input type="submit" name="buttonSubmit" value="Add Name" /></p>
     </fieldset>
-</form>
+</form>*@
 
 <p>
     @Html.ActionLink("Create New", "Create")

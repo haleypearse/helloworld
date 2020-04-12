@@ -27,7 +27,7 @@ namespace HelloWorldMVC.Controllers
             context.People.Add(person);
             context.SaveChanges();*/
 
-
+            System.Diagnostics.Debug.WriteLine("db = " + db);
             return View(db.People.ToList());
         }
 
@@ -52,6 +52,13 @@ namespace HelloWorldMVC.Controllers
 
             return View();
         }
+        
+        // GET: People/Create2
+        public ActionResult Create2()
+        {
+
+            return View();
+        }
 
         // POST: People/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -60,6 +67,11 @@ namespace HelloWorldMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "FirstName,TimesMet")] Person person)
         {
+            //check if person already in DB
+            var query = db.People.Where(p => p.FirstName == person.FirstName).FirstOrDefault<Person>();
+
+            //if (db.People.Any(name => person.FirstName))
+
             if (ModelState.IsValid)
             {
                 db.People.Add(person);
