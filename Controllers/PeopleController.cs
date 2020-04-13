@@ -7,11 +7,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HelloWorldMVC.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace HelloWorldMVC.Controllers
 {
     public class PeopleController : Controller
     {
+        // should this be in a 'using' to close the db conection when out of scope?
         private PeopleDatabaseFirstDBEntities db = new PeopleDatabaseFirstDBEntities();
 
         // GET: People
@@ -32,18 +34,18 @@ namespace HelloWorldMVC.Controllers
         }
 
         // GET: People/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(Person person)
         {
-            if (id == null)
+            if (person.FirstName == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Person person = db.People.Find(id);
-            if (person == null)
+            Person p = db.People.Find(person.FirstName);
+            if (p == null)
             {
                 return HttpNotFound();
             }
-            return View(person);
+            return View(p);
         }
 
         // GET: People/Create
@@ -70,13 +72,30 @@ namespace HelloWorldMVC.Controllers
             //check if person already in DB
             var query = db.People.Where(p => p.FirstName == person.FirstName).FirstOrDefault<Person>();
 
-            //if (db.People.Any(name => person.FirstName))
+
 
             if (ModelState.IsValid)
             {
+                if (query == null) // Person is not in the DB
+                {
+                    
+                    {
+                        // Add the new person to DB
+                        person.TimesMet = 0;
+                        db.People.Add(person);
+                        db.SaveChanges();
+
+                        //return RedirectToAction("Index");
+                    }
+                }
+            } else // Person is already in the DB
+            {
+                //db.People.Remove(person);
+                person.TimesMet += 1;
                 db.People.Add(person);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                //Html.RenderPartial("_HeaderNavBar");
             }
 
             return View(person);

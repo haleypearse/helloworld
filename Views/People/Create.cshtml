@@ -5,7 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <h2>Hi! Who are you?</h2>
+@if (Request.HttpMethod == "POST")
+{
+    <h3>Nice to see you, @Model.FirstName, we've met @Model.TimesMet times now.</h3>
+}
+
+    <h2>Would you like to meet the robot?</h2>
 
 
 @using (Html.BeginForm()) 
