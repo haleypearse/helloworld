@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using HelloWorldMVC.Models;
 using Microsoft.Ajax.Utilities;
+using Serilog;
 
 namespace HelloWorldMVC.Controllers
 {
@@ -78,24 +79,20 @@ namespace HelloWorldMVC.Controllers
             {
                 if (query == null) // Person is not in the DB
                 {
-                    
-                    {
-                        // Add the new person to DB
-                        person.TimesMet = 0;
-                        db.People.Add(person);
-                        db.SaveChanges();
+                    // Add the new person to DB
+                    person.TimesMet = 1;
+                    db.People.Add(person);
+                    Log.Information("Added a new person {FirstName}", person.FirstName);
 
-                        //return RedirectToAction("Index");
-                    }
+                    //return RedirectToAction("Index");
                 }
-            } else // Person is already in the DB
-            {
-                //db.People.Remove(person);
-                person.TimesMet += 1;
-                db.People.Add(person);
+                else // Person is already in the DB
+                {
+                    person = query;
+                    person.TimesMet += 1; //Now is an instance of having met 
+                    Log.Information("Met {FirstName} {TimesMet} times now", person.FirstName, person.TimesMet);
+                }
                 db.SaveChanges();
-
-                //Html.RenderPartial("_HeaderNavBar");
             }
 
             return View(person);

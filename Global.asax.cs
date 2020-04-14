@@ -18,9 +18,13 @@ namespace HelloWorldMVC
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            var log = new LoggerConfiguration()
-    .WriteTo.Console()
-    .CreateLogger();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .WriteTo.Debug()
+                .WriteTo.Seq("http://localhost:5341/")
+                .WriteTo.File("myapp.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
         }
     }
 }
