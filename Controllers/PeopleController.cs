@@ -9,16 +9,20 @@ using System.Web.Mvc;
 using HelloWorldMVC.Models;
 using Microsoft.Ajax.Utilities;
 using Serilog;
+using Humanizer;
+using System.Threading.Tasks;
 
 namespace HelloWorldMVC.Controllers
 {
+   // [RequireHttps]
+   // [Authorize]
     public class PeopleController : Controller
     {
         // should this be in a 'using' to close the db conection when out of scope?
         private PeopleDatabaseFirstDBEntities db = new PeopleDatabaseFirstDBEntities();
 
         // GET: People
-        public ActionResult Index()
+        public ActionResult Indexx()  //replaced
         {
             // try adding an entry to DB
             /*var context = new PeopleDatabaseFirstDBEntities();
@@ -32,6 +36,26 @@ namespace HelloWorldMVC.Controllers
 
             System.Diagnostics.Debug.WriteLine("db = " + db);
             return View(db.People.ToList());
+        }
+
+        public async Task<ActionResult> Index(string sortOrder)
+        {
+            Log.Information("entered the new async filterable Index method.");
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            var people = from p in db.People
+                           select p;
+            sortOrder = "TimesMet";
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    people = people.OrderByDescending(p => p.FirstName);
+                    break;
+                case "TimesMet":
+                    people = people.OrderBy(p => p.TimesMet);
+                    break;
+            }
+            return View(await people.AsNoTracking().ToListAsync());
         }
 
         // GET: People/Details/5
@@ -52,6 +76,9 @@ namespace HelloWorldMVC.Controllers
         // GET: People/Create
         public ActionResult Create()
         {
+            // Check App Pool
+            Log.Information("The current app pool is " + System.Security.Principal.WindowsIdentity.GetCurrent().Name);
+            //Response.Write(System.Security.Principal.WindowsIdentity.GetCurrent().Name);
 
             return View();
         }
@@ -73,8 +100,6 @@ namespace HelloWorldMVC.Controllers
             //check if person already in DB
             var query = db.People.Where(p => p.FirstName == person.FirstName).FirstOrDefault<Person>();
 
-
-
             if (ModelState.IsValid)
             {
                 if (query == null) // Person is not in the DB
@@ -83,7 +108,6 @@ namespace HelloWorldMVC.Controllers
                     person.TimesMet = 1;
                     db.People.Add(person);
                     Log.Information("Added a new person {FirstName}", person.FirstName);
-
                     //return RedirectToAction("Index");
                 }
                 else // Person is already in the DB
@@ -93,6 +117,7 @@ namespace HelloWorldMVC.Controllers
                     Log.Information("Met {FirstName} {TimesMet} times now", person.FirstName, person.TimesMet);
                 }
                 db.SaveChanges();
+                ViewData["TimesMet"] = person.TimesMet.ToOrdinalWords();
             }
 
             return View(person);

@@ -25,6 +25,14 @@ namespace HelloWorldMVC
                 .WriteTo.Seq("http://localhost:5341/")
                 .WriteTo.File("myapp.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
+
         }
+
+        //protected void Page_Load()
+        //{
+        //    string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
+        //    Response.Redirect(redirectUrl, false);
+        //    HttpContext.ApplicationInstance.CompleteRequest();
+        //}
     }
 }
