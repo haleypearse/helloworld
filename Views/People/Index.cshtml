@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>The Robot's Memory</h2>
 
 @using (Html.BeginForm())
 {
@@ -13,29 +13,28 @@
 
 }
 
-@*<form method="post">
-    <fieldset>
-
-        <p>
-            <label for="Your name, please">Name:</label>
-            <input type="text" name="title" value="@Request.Form["title"]" />
-        </p>
-
-
-        <p><input type="submit" name="buttonSubmit" value="Add Name" /></p>
-    </fieldset>
-</form>*@
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Greet the robot", "Create")
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Filter Results: @Html.TextBox("SearchString")
+        <input type="submit" value="Filter" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.TimesMet)
+            First Name
+            @*@Html.DisplayNameFor(model => model.FirstName)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            Times Met
+            @*@Html.DisplayNameFor(model => model.TimesMet)*@
         </th>
         <th></th>
     </tr>
@@ -52,9 +51,9 @@
                 @Html.DisplayFor(modelItem => item.TimesMet)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.FirstName }) |
-                @Html.ActionLink("Details", "Details", new { id = item.FirstName }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.FirstName })
+                @Html.ActionLink("Edit", "Edit", new { FirstName = item.FirstName.Trim() }) |
+                @Html.ActionLink("Details", "Details", new { FirstName = item.FirstName.Trim() }) |
+                @Html.ActionLink("Delete", "Delete", new { FirstName = item.FirstName.Trim() })
             </td>
         </tr>
     }

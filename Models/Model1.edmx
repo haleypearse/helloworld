@@ -4,18 +4,19 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="PeopleDatabaseFirstDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="PeopleDatabaseFirstDBModelStoreContainer">
-    <EntitySet Name="People" EntityType="PeopleDatabaseFirstDBModel.Store.People" store:Type="Tables" Schema="dbo" />
-  </EntityContainer>
-  <EntityType Name="People">
-    <Key>
-      <PropertyRef Name="FirstName" />
-    </Key>
-    <Property Name="FirstName" Type="nchar" Nullable="false" MaxLength="100" />
-    <Property Name="TimesMet" Type="int" Nullable="false" />
-  </EntityType>
-</Schema></edmx:StorageModels>
+    <Schema Namespace="PeopleDatabaseFirstDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="People">
+          <Key>
+            <PropertyRef Name="FirstName" />
+          </Key>
+          <Property Name="FirstName" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="TimesMet" Type="int" Nullable="false" />
+          <Property Name="DateMet" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="PeopleDatabaseFirstDBModelStoreContainer">
+          <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PeopleDatabaseFirstDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -25,6 +26,7 @@
           </Key>
           <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="TimesMet" Type="Int32" Nullable="false" />
+          <Property Name="DateMet" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityContainer Name="PeopleDatabaseFirstDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="People" EntityType="Self.Person" />
@@ -38,7 +40,8 @@
     <EntitySetMapping Name="People">
       <EntityTypeMapping TypeName="IsTypeOf(PeopleDatabaseFirstDBModel.Person)">
         <MappingFragment StoreEntitySet="People">
-          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="DateMet" ColumnName="DateMet" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="TimesMet" ColumnName="TimesMet" />
         </MappingFragment>
       </EntityTypeMapping>

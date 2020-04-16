@@ -16,5 +16,6 @@ namespace HelloWorldMVC.Models
     {
         public string FirstName { get; set; }
         public int TimesMet { get; set; }
+        public Nullable<System.DateTime> DateMet { get; set; }
     }
 }

@@ -14,37 +14,33 @@ using System.Threading.Tasks;
 
 namespace HelloWorldMVC.Controllers
 {
-   // [RequireHttps]
-   // [Authorize]
+    // [RequireHttps]
+    // [Authorize]
     public class PeopleController : Controller
     {
         // should this be in a 'using' to close the db conection when out of scope?
         private PeopleDatabaseFirstDBEntities db = new PeopleDatabaseFirstDBEntities();
 
         // GET: People
-        public ActionResult Indexx()  //replaced
+        public ActionResult Index(string searchString)  
         {
-            // try adding an entry to DB
-            /*var context = new PeopleDatabaseFirstDBEntities();
-            var person = new Person()
-            { 
-                FirstName = "Haley",
-                TimesMet = 0
-            };
-            context.People.Add(person);
-            context.SaveChanges();*/
+            //searchString = "haley";
 
-            System.Diagnostics.Debug.WriteLine("db = " + db);
-            return View(db.People.ToList());
+            var people = from p in db.People select p;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                people = people.Where(p => p.FirstName.Contains(searchString) || p.TimesMet.ToString().Contains(searchString));
+            }
+            return View(people);
         }
 
-        public async Task<ActionResult> Index(string sortOrder)
+        public async Task<ActionResult> Indexx(string sortOrder)
         {
-            Log.Information("entered the new async filterable Index method.");
+            // Log.Information("entered the new async filterable Index method.");
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             var people = from p in db.People
-                           select p;
+                         select p;
             sortOrder = "TimesMet";
             switch (sortOrder)
             {
@@ -56,18 +52,37 @@ namespace HelloWorldMVC.Controllers
                     break;
             }
             return View(await people.AsNoTracking().ToListAsync());
+
+
+
+            // try adding an entry to DB
+            /*var context = new PeopleDatabaseFirstDBEntities();
+            var person = new Person()
+            { 
+                FirstName = "Haley",
+                TimesMet = 0
+            };
+            context.People.Add(person);
+            context.SaveChanges();*/
+
+            // System.Diagnostics.Debug.WriteLine("db = " + db);
+            // Log.Information("db = " + db);
         }
 
         // GET: People/Details/5
-        public ActionResult Details(Person person)
+        public ActionResult Details(string FirstName)
         {
-            if (person.FirstName == null)
+            //Log.Information("Reached {details} method", this.ControllerContext);
+            // FirstName = FirstName.Trim();
+
+            if (FirstName == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Person p = db.People.Find(person.FirstName);
+            Person p = db.People.Find(FirstName);
             if (p == null)
             {
+                Log.Information("{person} not found from {details}", p, this.ControllerContext);
                 return HttpNotFound();
             }
             return View(p);
@@ -77,12 +92,13 @@ namespace HelloWorldMVC.Controllers
         public ActionResult Create()
         {
             // Check App Pool
-            Log.Information("The current app pool is " + System.Security.Principal.WindowsIdentity.GetCurrent().Name);
+            // Log.Information("The current app pool is " + System.Security.Principal.WindowsIdentity.GetCurrent().Name);
+
             //Response.Write(System.Security.Principal.WindowsIdentity.GetCurrent().Name);
 
             return View();
         }
-        
+
         // GET: People/Create2
         public ActionResult Create2()
         {
@@ -95,30 +111,47 @@ namespace HelloWorldMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,TimesMet")] Person person)
+        public ActionResult Create([Bind(Include = "FirstName")] Person person)
         {
-            //check if person already in DB
-            var query = db.People.Where(p => p.FirstName == person.FirstName).FirstOrDefault<Person>();
-
-            if (ModelState.IsValid)
+            try
             {
-                if (query == null) // Person is not in the DB
+                if (person.FirstName == null) // Because validation in view not working
                 {
-                    // Add the new person to DB
-                    person.TimesMet = 1;
-                    db.People.Add(person);
-                    Log.Information("Added a new person {FirstName}", person.FirstName);
-                    //return RedirectToAction("Index");
+                    return View();
                 }
-                else // Person is already in the DB
+                if (ModelState.IsValid)
                 {
-                    person = query;
-                    person.TimesMet += 1; //Now is an instance of having met 
-                    Log.Information("Met {FirstName} {TimesMet} times now", person.FirstName, person.TimesMet);
+                    //check if person already in DB
+                    var query = db.People.Where(p => p.FirstName == person.FirstName).FirstOrDefault<Person>();
+
+                    if (query == null) // Person is not in the DB
+                    {
+                        // Add the new person to DB
+                        person.TimesMet = 1;
+                        person.DateMet = DateTime.UtcNow;
+                        person.FirstName = person.FirstName.Humanize(LetterCasing.Title);
+                        db.People.Add(person);
+                        Log.Information("Added a new person {FirstName}", person.FirstName);
+                        //return RedirectToAction("Index");
+                    }
+                    else // Person is already in the DB
+                    {
+                        person = query;
+                        person.TimesMet += 1; //Now is an instance of having met 
+                        Log.Information("Met {FirstName} {TimesMet} times now", person.FirstName, person.TimesMet);
+                    }
+                    db.SaveChanges();
+                    ViewData["TimesMet"] = person.TimesMet.ToOrdinalWords();
                 }
-                db.SaveChanges();
-                ViewData["TimesMet"] = person.TimesMet.ToOrdinalWords();
+            } 
+            catch (DataException dex)
+            {
+                //Log the error 
+                Log.Information("error from Create actionmethod: " + dex);
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
+
+
 
             return View(person);
         }
@@ -130,12 +163,12 @@ namespace HelloWorldMVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Person person = db.People.Find(id);
-            if (person == null)
+            Person p = db.People.Find(id);
+            if (p == null)
             {
                 return HttpNotFound();
             }
-            return View(person);
+            return View(p);
         }
 
         // POST: People/Edit/5

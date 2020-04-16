@@ -10,16 +10,45 @@
 <div>
     <h4>Person</h4>
     <hr />
-    <dl class="dl-horizontal">
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Times Met
+            </th>
+            <th>
+                Date Met
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.TimesMet)
+            </td>
+            <td>
+                @if (Model.DateMet != null)
+                {
+                    @Html.DisplayFor(model => model.DateMet)
+                }
+            </td>        </tr>
+    </table>
+    
+    @*<dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.FirstName) |
             @Html.DisplayNameFor(model => model.TimesMet)
         </dt>
 
         <dd>
+            @Html.DisplayFor(model => model.FirstName) |
             @Html.DisplayFor(model => model.TimesMet)
         </dd>
 
-    </dl>
+    </dl>*@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.FirstName }) |
